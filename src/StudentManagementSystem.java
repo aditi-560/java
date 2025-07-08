@@ -4,7 +4,7 @@ import java.util.*;
 public class StudentManagementSystem {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        ArrayList<Student> studentsList = new ArrayList<>();
+        ArrayList<Student> studentsList = FileManager.loadStudents();
         int choice;
 
         do{
@@ -28,6 +28,7 @@ public class StudentManagementSystem {
 
                 Student s = new Student(name, roll, age);
                 studentsList.add(s);
+                FileManager.saveStudent(s);
                 System.out.println("Student added successfully!");
                 break;
 
