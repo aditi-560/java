@@ -11,7 +11,8 @@ public class StudentManagementSystem {
             System.out.println("1 Add Student");
             System.out.println("2 Display Students");
             System.out.println("3 Search Student");
-            System.out.println("4 Exist the system");
+            System.out.println("4 Delete the student");
+            System.out.println("5.exit the system");
             System.out.println("Enter you choice");
 
             choice = sc.nextInt();
@@ -62,12 +63,34 @@ public class StudentManagementSystem {
                 break;
 
                 case 4:
+                System.out.println("Enter roll number to delete:");
+                int delroll = sc.nextInt();
+                boolean is = false;
+                
+                Iterator<Student> iterator = studentsList.iterator();
+                while(iterator.hasNext()){
+                    Student student  = iterator.next();
+                    
+                        if(student.getRollNo() == delroll){
+                            iterator.remove();
+                            FileManager.overwriteFile(studentsList);
+                            System.out.println("Student with roll number " + delroll + " deleted successfully.");
+                            is = true;
+                            break;
+                        
+                    }
+                }
+                if(!is){
+                    System.out.println("Student with roll number " + delroll + " not found.");
+                }
+                break;
+
+                case 5:
                 System.out.println("Exiting the system. Goodbye!");
                 break;
 
                 default:
                 System.out.println("Invalid number entered");
-                
 
 
             }

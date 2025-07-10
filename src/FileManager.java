@@ -21,6 +21,17 @@ public class FileManager {
         }
     }
 
+    public static void overwriteFile(List<Student> students){
+        try(BufferedWriter writer  = new BufferedWriter(new FileWriter(FILE_NAME))){
+            for(Student s : students){
+                writer.write(s.toString());
+                writer.newLine();
+            }
+        }catch(IOException e){
+            System.out.println("Error occurred while overwriting the file: " + e.getMessage());
+        }
+    }
+
     // to load the student
     public static ArrayList<Student> loadStudents(){
         ArrayList<Student> list = new ArrayList<>();
