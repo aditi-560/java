@@ -42,11 +42,12 @@ public class FileManager {
             String line;
             while((line = reader.readLine())!=null) {
                 String[] parts = line.split(",");
-                if(parts.length == 3){
+                if(parts.length == 4){
                     String name = parts[0];
                     int roll = Integer.parseInt(parts[1]);
                     int age = Integer.parseInt(parts[2]);
-                    list.add(new Student(name, roll, age));
+                    Department department = Department.valueOf(parts[3]);
+                    list.add(new Student(name, roll, age, department));
                 }
             }
 

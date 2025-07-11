@@ -26,8 +26,29 @@ public class StudentManagementSystem {
                 int roll = sc.nextInt();
                 System.out.println("enter age");
                 int age = sc.nextInt();
+                boolean valid  = false;
+                Department dept = null;
+                System.out.println("The departments available here are : ");
+                
+                while(!valid){
+                for(Department d : Department.values()){
+                    System.out.println("- " + d.name());;
+                }
 
-                Student s = new Student(name, roll, age);
+                System.out.print("Enter Department: " );
+                sc.nextLine();
+                String deptInput = sc.nextLine().trim().toUpperCase();
+                
+                try{
+                    dept = Department.valueOf(deptInput);
+                    valid = true;
+                } catch(IllegalArgumentException e){
+                    System.out.println("Invalid department. Please enter a valid department.");
+                }
+            }
+
+
+                Student s = new Student(name, roll, age, dept);
                 studentsList.add(s);
                 FileManager.saveStudent(s);
                 System.out.println("Student added successfully!");
