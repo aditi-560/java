@@ -13,7 +13,7 @@ public class FileManager {
     private static final String FILE_NAME = "students.txt";
     public static void saveStudent(Student student){
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
-            writer.write(student.toString());
+            writer.write(formatStudent(student));
             writer.newLine();
 
         }catch(IOException e){
@@ -42,12 +42,25 @@ public class FileManager {
             String line;
             while((line = reader.readLine())!=null) {
                 String[] parts = line.split(",");
-                if(parts.length == 4){
+                if(parts.length >= 4){
                     String name = parts[0];
                     int roll = Integer.parseInt(parts[1]);
                     int age = Integer.parseInt(parts[2]);
                     Department department = Department.valueOf(parts[3]);
-                    list.add(new Student(name, roll, age, department));
+                    Map<String, Grade> subjects = new HashMap<>();
+
+                    if(parts.length == 5 && !parts[4].isEmpty()){
+                        String[] subPairs = parts[4].split("\\|");
+                        for(String pair: subPairs){
+                            String[] subGrade = pair.split(":");
+                            if(subGrade.length == 2){
+                                String subject = subGrade[0];
+                                Grade grade = Grade.valueOf(subGrade[1]);
+                                subjects.put(subject, grade);
+                            }
+                        }
+                    }
+                    list.add(new Student(name, roll, age, department, subjects));
                 }
             }
 
@@ -57,5 +70,24 @@ public class FileManager {
         }
 
         return list;
+    }
+
+    private static String formatStudent(Student student) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(student.getName()).append(",");
+        sb.append(student.getRollNo()).append(",");
+        sb.append(student.getAge()).append(",");
+        sb.append(student.getDepartment()).append(",");
+
+        Map<String, Grade> grades = student.getSubjectGrades();
+        for (Map.Entry<String, Grade> entry : grades.entrySet()) {
+            sb.append(entry.getKey()).append(":").append(entry.getValue()).append("|");
+        }
+
+        if (!grades.isEmpty()) {
+            sb.deleteCharAt(sb.length() - 1); // remove last "|"
+        }
+
+        return sb.toString();
     }
 }

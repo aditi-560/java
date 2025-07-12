@@ -1,3 +1,6 @@
 hong,1,18
 adi,2,19,CSE
 hnna,1,20,BIO
+aaa,1,22,CSE
+snna,3,19,CIVIL
+sia,4,12,CSE,b:B|physics:D

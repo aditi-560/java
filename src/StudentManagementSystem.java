@@ -12,7 +12,8 @@ public class StudentManagementSystem {
             System.out.println("2 Display Students");
             System.out.println("3 Search Student");
             System.out.println("4 Delete the student");
-            System.out.println("5.exit the system");
+            System.out.println("5. Top performing students");
+            System.out.println("6. Exit the system");
             System.out.println("Enter you choice");
 
             choice = sc.nextInt();
@@ -47,8 +48,30 @@ public class StudentManagementSystem {
                 }
             }
 
+            System.out.println("Enter number of subjects: ");
+            int subjectCount= sc.nextInt();
+            sc.nextLine();
 
-                Student s = new Student(name, roll, age, dept);
+            Map<String, Grade> subjectGrades = new HashMap<>();
+
+            for(int i = 0;i<subjectCount;i++){
+                System.out.println("Enter subject " + (i+1) + ":");
+                String subject = sc.nextLine();
+                System.out.println("Enter grade for " + subject + "(A, B, C, D, E, F)");
+                String gradeInput = sc.nextLine().trim().toUpperCase();
+
+                try{
+                    Grade grade = Grade.valueOf(gradeInput);
+                    subjectGrades.put(subject, grade);
+                }catch(IllegalArgumentException e){
+                    System.out.println("Invalid grade entered. Please enter a valid grade (A, B, C, D, F).");
+                    i--; // to repeat the input for the same subject
+                }
+            }
+
+
+
+                Student s = new Student(name, roll, age, dept, subjectGrades);
                 studentsList.add(s);
                 FileManager.saveStudent(s);
                 System.out.println("Student added successfully!");
@@ -106,10 +129,20 @@ public class StudentManagementSystem {
                 }
                 break;
 
+                
                 case 5:
+                System.out.println("How many top peforming students do you want to display>");;
+                int topN = sc.nextInt();
+                
+                studentsList.stream()
+                .sorted((s1, s2) -> Double.compare(s2.calculateGPA(), s1.calculateGPA()))
+                .limit(topN)
+                .forEach(Student::display);
+                break;
+                
+                case 6:
                 System.out.println("Exiting the system. Goodbye!");
                 break;
-
                 default:
                 System.out.println("Invalid number entered");
 
@@ -117,7 +150,7 @@ public class StudentManagementSystem {
             }
 
 
-        } while(choice!=4);
+        } while(choice!=7);
         sc.close();
 
     }
