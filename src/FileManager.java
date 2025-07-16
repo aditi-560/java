@@ -24,7 +24,7 @@ public class FileManager {
     public static void overwriteFile(List<Student> students){
         try(BufferedWriter writer  = new BufferedWriter(new FileWriter(FILE_NAME))){
             for(Student s : students){
-                writer.write(s.toString());
+                writer.write(formatStudent(s));
                 writer.newLine();
             }
         }catch(IOException e){
@@ -42,15 +42,20 @@ public class FileManager {
             String line;
             while((line = reader.readLine())!=null) {
                 String[] parts = line.split(",");
-                if(parts.length >= 4){
+                if(parts.length >= 7){
                     String name = parts[0];
                     int roll = Integer.parseInt(parts[1]);
                     int age = Integer.parseInt(parts[2]);
                     Department department = Department.valueOf(parts[3]);
+                    String city = parts[4];
+                    String state = parts[5];
+                    String pin = parts[6];
+
+                    Student.Address address = new Student.Address(city, state, pin);
                     Map<String, Grade> subjects = new HashMap<>();
 
-                    if(parts.length == 5 && !parts[4].isEmpty()){
-                        String[] subPairs = parts[4].split("\\|");
+                    if(parts.length == 8 && !parts[7].isEmpty()){
+                        String[] subPairs = parts[7].split("\\|");
                         for(String pair: subPairs){
                             String[] subGrade = pair.split(":");
                             if(subGrade.length == 2){
@@ -60,7 +65,8 @@ public class FileManager {
                             }
                         }
                     }
-                    list.add(new Student(name, roll, age, department, subjects));
+                    Student s = new Student(name, roll, age, department, subjects, address);
+                    list.add(s);
                 }
             }
 

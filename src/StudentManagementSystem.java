@@ -70,9 +70,18 @@ public class StudentManagementSystem {
                 }
             }
 
+            System.out.println("Enter city: ");
+            String city = sc.nextLine();
+            System.out.println("Em=nter State : ");;
+            String state = sc.nextLine();
+            System.out.println("Enter pin code: "); 
+            String pin = sc.nextLine();
+
+            Student.Address address = new Student.Address(city, state, pin);
 
 
-                Student s = new Student(name, roll, age, dept, subjectGrades);
+
+                Student s = new Student(name, roll, age, dept, subjectGrades, address);
                 studentsList.add(s);
                 FileManager.saveStudent(s);
                 System.out.println("Student added successfully!");
