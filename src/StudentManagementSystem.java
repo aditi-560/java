@@ -13,7 +13,8 @@ public class StudentManagementSystem {
             System.out.println("3 Search Student");
             System.out.println("4 Delete the student");
             System.out.println("5. Top performing students");
-            System.out.println("6. Exit the system");
+            System.out.println("6. Sort Students");
+            System.out.println("7. Exit the system");
             System.out.println("Enter you choice");
 
             choice = sc.nextInt();
@@ -139,8 +140,55 @@ public class StudentManagementSystem {
                 .limit(topN)
                 .forEach(Student::display);
                 break;
-                
+
                 case 6:
+                if(studentsList.isEmpty()){
+                    System.out.println("No student is available in the array to sort");
+                    break;
+                }
+
+                System.out.println("\nChoose sorting criteria: ");
+                System.out.println("1. Name");
+                System.out.println("2. Age");
+                System.out.println("3. Roll Number");
+                System.out.println("4. Department");
+                System.out.println("Enter your choice: ");
+                int sortChoice = sc.nextInt();
+
+                Comparator<Student> comparator = null;
+
+                switch(sortChoice){
+
+                    case 1:
+                    comparator= Comparator.comparing(Student::getName);
+                    break;
+
+                    case 2:
+                    comparator = Comparator.comparingInt(Student::getAge);
+                    break;
+
+                    case 3:
+                    comparator = Comparator.comparingInt(Student::getRollNo);
+                    break;
+
+                    case 4:
+                    comparator = Comparator.comparing(Student::getDepartment);
+                    break;
+
+                    default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+                }
+
+                if(comparator != null){
+                    System.out.println("\nSorted Students: ");
+                    studentsList.stream()
+                    .sorted(comparator)
+                    .forEach(Student::display);
+                }
+                break;
+                
+                case 7:
                 System.out.println("Exiting the system. Goodbye!");
                 break;
                 default:
