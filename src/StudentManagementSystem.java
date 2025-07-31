@@ -1,5 +1,10 @@
 import java.util.*;
 
+import student.Department;
+import student.Grade;
+import student.Student;
+import util.FileManager;
+
 
 public class StudentManagementSystem {
     public static void main(String[] args) {
@@ -26,8 +31,7 @@ public class StudentManagementSystem {
                 String name = sc.nextLine();
                 System.out.println("enter roll no");
                 int roll = sc.nextInt();
-                System.out.println("enter age");
-                int age = sc.nextInt();
+                
                 boolean valid  = false;
                 Department dept = null;
                 System.out.println("The departments available here are : ");
@@ -70,18 +74,18 @@ public class StudentManagementSystem {
                 }
             }
 
-            System.out.println("Enter city: ");
-            String city = sc.nextLine();
-            System.out.println("Em=nter State : ");;
-            String state = sc.nextLine();
-            System.out.println("Enter pin code: "); 
-            String pin = sc.nextLine();
+            // System.out.println("Enter city: ");
+            // String city = sc.nextLine();
+            // System.out.println("Em=nter State : ");;
+            // String state = sc.nextLine();
+            // System.out.println("Enter pin code: "); 
+            // String pin = sc.nextLine();
 
-            Student.Address address = new Student.Address(city, state, pin);
+            // Student.Address address = new Student.Address(city, state, pin);
 
 
 
-                Student s = new Student(name, roll, age, dept, subjectGrades, address);
+                Student s = new Student(name, roll, dept, subjectGrades);
                 studentsList.add(s);
                 FileManager.saveStudent(s);
                 System.out.println("Student added successfully!");

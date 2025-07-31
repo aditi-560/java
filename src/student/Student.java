@@ -1,3 +1,4 @@
+package student;
 import java.util.*;
 
 
@@ -5,43 +6,43 @@ import java.util.*;
 
 public class Student {
     private String name;
-    private int age;
+    // private int age;
     private int rollno;
     private Department department;
     private Map<String, Grade> subjects = new HashMap<>();
-    private Address address;
+    // private Address address;
 
     public void addSubject(String subject, Grade grade){
         subjects.put(subject, grade);
     }
 
-    public static class Address{
-        private String city;
-        private String state;
-        private String pin;
+    // public static class Address{
+    //     private String city;
+    //     private String state;
+    //     private String pin;
 
-        public Address(String city, String state, String pin){
-            this.city = city;
-            this.state = state;
-            this.pin = pin;
-        }
+    //     public Address(String city, String state, String pin){
+    //         this.city = city;
+    //         this.state = state;
+    //         this.pin = pin;
+    //     }
 
-        public String getCity() {return city;}
-        public String getState() {return state;}
-        public String getPin() {return pin;}
+    //     public String getCity() {return city;}
+    //     public String getState() {return state;}
+    //     public String getPin() {return pin;}
 
-        @Override
-        public String toString() {
-            return city + ", " + state + ", " + pin;
-        }
-    }
-    public Student(String name, int rollno, int age, Department department, Map<String, Grade> subjects, Address address){
+    //     @Override
+    //     public String toString() {
+    //         return city + ", " + state + ", " + pin;
+    //     }
+    // }
+    public Student(String name, int rollno, Department department, Map<String, Grade> subjects){
         this.name = name;
-        this.age = age;
+        // this.age = age;
         this.rollno = rollno;
         this.department = department;
         this.subjects = subjects;
-        this.address = address;
+        // this.address = address;
 
     }
 
@@ -56,12 +57,16 @@ public class Student {
 }
 
 
+public void setName(String name){
+    this.name = name;
+}
+public void setDepartment(Department department){
+    this.department = department;
+}
     public String getName(){
         return name;
     }
-    public int getAge(){
-        return age;
-    }
+ 
     public int getRollNo(){
         return rollno;
     }
@@ -71,16 +76,18 @@ public class Student {
     public Map<String, Grade> getSubjectGrades(){
         return subjects;
     }
+   
+
     public void display(){
         System.out.println("Name: " + name);
-        System.out.println("Age: " + age);
+        // System.out.println("Age: " + age);
         System.out.println("Roll No: " + rollno);
         System.out.println("Department: " + department.getFullName());
         System.out.println("Subjects & Grades: ");
         subjects.forEach((sub, grade) -> 
         System.out.println(" - " + sub + ": " + grade + " (" + grade.getPoints() + ") "));
         System.out.printf("GPA : %.2f\n" , calculateGPA());
-        System.out.println("Address: " + address);
+        // System.out.println("Address: " + address);
     }
 
     public static void main(String[] args) throws Exception {
@@ -88,6 +95,6 @@ public class Student {
     }
     @Override
     public String toString(){
-        return name + "," + rollno + "," + age +  "," + department.name();
+        return name + "," + rollno + "," +  "," + department.name();
     }
 }

@@ -1,3 +1,4 @@
+package student;
 public enum Department {
     CSE("Computer Science and Enigineering"),
     ECE("Electronics"),

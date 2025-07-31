@@ -1,3 +1,4 @@
+package student;
 public enum Grade{
     A(4.0), B(3.0), C(2.0), D(1.0), f(0.0);
 

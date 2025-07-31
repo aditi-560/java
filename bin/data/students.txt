@@ -1,0 +1,4 @@
+singh,22,CSE,hindi:A
+jinu,11,BIO,bio:A
+honey,2,CIVIL,hindi:A
+zuccini,3,CSE,java:A

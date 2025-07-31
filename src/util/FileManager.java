@@ -1,16 +1,16 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+package util;
 import java.util.*;
-import java.io.FileReader;
+
+import student.Department;
+import student.Grade;
+import student.Student;
+
 import java.io.*;
 
 
 
 public class FileManager {
-    private static final String FILE_NAME = "students.txt";
+    private static final String FILE_NAME = "src/data/students.txt";
     public static void saveStudent(Student student){
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
             writer.write(formatStudent(student));
@@ -24,6 +24,7 @@ public class FileManager {
     public static void overwriteFile(List<Student> students){
         try(BufferedWriter writer  = new BufferedWriter(new FileWriter(FILE_NAME))){
             for(Student s : students){
+                System.out.println(s);
                 writer.write(formatStudent(s));
                 writer.newLine();
             }
@@ -31,6 +32,41 @@ public class FileManager {
             System.out.println("Error occurred while overwriting the file: " + e.getMessage());
         }
     }
+    // will use it later
+    public static void appendCredential(String username, String password, String role, int studentRoll) {
+    try (FileWriter fw = new FileWriter("src/data/credentials.txt", true);
+         BufferedWriter bw = new BufferedWriter(fw);
+         PrintWriter out = new PrintWriter(bw)) {
+
+        out.println(username + "," + password + "," + role + "," + studentRoll);
+    } catch (IOException e) {
+        System.out.println("❌ Error writing to credentials file: " + e.getMessage());
+    }
+}
+
+    public static void removeCredentialByRoll(int rollno){
+        File  inputFile = new File("src/data/credentials.txt");
+        File tempfile = new File("src/data/credentials_temp.txt");
+
+        try(BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+            PrintWriter writer = new PrintWriter(new FileWriter(tempfile))) {
+
+            String line;
+            while((line = reader.readLine()) != null){
+                String[] parts = line.split(",");
+                if(parts.length >= 4 && !parts[3].equals(rollno)){
+                    writer.println(line);
+                }
+            }
+        } catch(IOException e){
+            System.out.println("Error occurred while removing credential: " + e.getMessage());
+            return;
+        }
+        if(!inputFile.delete() || !tempfile.renameTo(inputFile)){
+            System.out.println("Error occurred while renaming the temporary file.");
+        }
+    }
+
 
     // to load the student
     public static ArrayList<Student> loadStudents(){
@@ -42,20 +78,16 @@ public class FileManager {
             String line;
             while((line = reader.readLine())!=null) {
                 String[] parts = line.split(",");
-                if(parts.length >= 7){
+                if(parts.length >= 4){
                     String name = parts[0];
                     int roll = Integer.parseInt(parts[1]);
-                    int age = Integer.parseInt(parts[2]);
-                    Department department = Department.valueOf(parts[3]);
-                    String city = parts[4];
-                    String state = parts[5];
-                    String pin = parts[6];
-
-                    Student.Address address = new Student.Address(city, state, pin);
+                  
+                    Department department = Department.valueOf(parts[2]);
+                   
                     Map<String, Grade> subjects = new HashMap<>();
 
-                    if(parts.length == 8 && !parts[7].isEmpty()){
-                        String[] subPairs = parts[7].split("\\|");
+                    if(!parts[3].isEmpty()){
+                        String[] subPairs = parts[3].split("\\|");
                         for(String pair: subPairs){
                             String[] subGrade = pair.split(":");
                             if(subGrade.length == 2){
@@ -65,7 +97,7 @@ public class FileManager {
                             }
                         }
                     }
-                    Student s = new Student(name, roll, age, department, subjects, address);
+                    Student s = new Student(name, roll, department, subjects);
                     list.add(s);
                 }
             }
@@ -82,7 +114,7 @@ public class FileManager {
         StringBuilder sb = new StringBuilder();
         sb.append(student.getName()).append(",");
         sb.append(student.getRollNo()).append(",");
-        sb.append(student.getAge()).append(",");
+        // sb.append(student.getAge()).append(",");
         sb.append(student.getDepartment()).append(",");
 
         Map<String, Grade> grades = student.getSubjectGrades();
