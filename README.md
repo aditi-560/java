@@ -1,4 +1,4 @@
-# Student Management System – Implementation Plan (Login System Upgrade)
+# Student Management System
 
 This document outlines the step-by-step implementation plan for integrating a login system into the Student Management System project.
 
